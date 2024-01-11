@@ -75,7 +75,7 @@ func (mongo *MongoDB) Search(kind, query string, start, limit int) (*data.Messag
 		field = "raw.from"
 	}
 
-	data, err := mongo.Collection.Find(context.Background(), bson.M{field: primitive.Regex{Pattern: query, Options: "i"}}, options.Find().SetSkip(int64(start)).SetLimit(int64(limit)).SetSort(bson.D{{"created", 1}}).SetProjection(bson.M{
+	data, err := mongo.Collection.Find(context.Background(), bson.M{field: primitive.Regex{Pattern: query, Options: "i"}}, options.Find().SetSkip(int64(start)).SetLimit(int64(limit)).SetSort(bson.D{{"created", -1}}).SetProjection(bson.M{
 		"id":              1,
 		"_id":             1,
 		"from":            1,
@@ -104,7 +104,7 @@ func (mongo *MongoDB) Search(kind, query string, start, limit int) (*data.Messag
 // List returns a list of messages by index
 func (mongo *MongoDB) List(start int, limit int) (*data.Messages, error) {
 	messages := &data.Messages{}
-	data, err := mongo.Collection.Find(context.Background(), bson.M{}, options.Find().SetSkip(int64(start)).SetLimit(int64(limit)).SetSort(bson.D{{"created", 1}}).SetProjection(bson.M{
+	data, err := mongo.Collection.Find(context.Background(), bson.M{}, options.Find().SetSkip(int64(start)).SetLimit(int64(limit)).SetSort(bson.D{{"created", -1}}).SetProjection(bson.M{
 		"id":              1,
 		"_id":             1,
 		"from":            1,
